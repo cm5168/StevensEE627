@@ -6,6 +6,7 @@ Class Project for EE627
 * Flask
 * Nginx*
 * uWSGI*
+
 ###### *optional
 
 
