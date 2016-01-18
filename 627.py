@@ -1,36 +1,47 @@
 import os
+import re
 import datetime
 import sys
 from operator import itemgetter
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
 from werkzeug import secure_filename
 
+# Flask Initialization
 UPLOAD_FOLDER = "./uploadedfile/"
 ALLOWED_EXTENSIONS = set(['txt','csv'])
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH']=5*1024*1024
+app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER	# Upload Folder
+app.config['MAX_CONTENT_LENGTH']=5*1024*1024	# Upload File limit
 
+# Server Initialization
 # Dictionary for team
-dic_team = {"nalakuvara":"Nalakuvara",
-			"deep_learning":"Deep Learning",
-			"silver":"Silver",
-			"z":"Z",
-			"phinex":"Phinex",
-			"explorer":"Explorer",
-			"xjbz2206":"XJBZ2206"}
-dic_team_file = {"nalakuvara":"1_nalakuvara.txt",
-				"deep_learning":"2_deep_learning.txt",
-				"silver":"3_silver.txt",
-				"z":"4_z.txt",
-				"phinex":"5_phinex.txt",
-				"explorer":"6_explorer.txt",
-				"xjbz2206":"7_xjbz2206.txt"}
+dic_team={}
+
+dic_team_member={}
+dic_team_file={}
+TEAM_INFO_FILE = "TeamInfo.txt"
+with open(TEAM_INFO_FILE) as teamInfoFile:
+	team_i = 1
+	for line in teamInfoFile:
+		line_temp = line.strip("\n").strip("\r").split("|")
+		team = re.sub(r'[^a-zA-Z0-9]','_',line_temp[0].lower())
+		dic_team[team]=line_temp[0]
+		dic_team_member[team] = line_temp[1]
+		dic_team_file[team] = "%d_"%team_i+team+".txt"
+		team_i += 1
+		
+list_team=[[dic_team[item],item] for item in dic_team]		
 
 # Data File				
 RANK_FILE = "ranking.txt"
 LOG_FILE = "upload_log.txt"
 TURE_FILE = "TrueResult.txt"
+
+# Create Ranking File
+if not os.path.isfile(RANK_FILE):
+	with open(RANK_FILE,"w") as rankFile:
+		for item in dic_team_member:
+			rankFile.write(item+"|"+dic_team_member[item]+"|0|No Upload\n")
 
 # Filter out file extension
 def allowed_file(filename):
@@ -48,7 +59,7 @@ def upload_file():
 				filename = secure_filename(file.filename)
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
 				return redirect(url_for('uploaded_file',filename=filename,teamName=request.form['team']))
-		return	render_template("upload_file.html")
+		return	render_template("upload_file.html",teamList = list_team)
 	except RequestEntityTooLarge:
 		error = "File is too large!"
 		return render_template("error.html",error = error)
@@ -128,5 +139,5 @@ def cur_ranking():
 	return render_template("leader_board.html",rankList = rank_list)
 	
 if __name__=="__main__":
-	app.debug = True
+	#app.debug = True
 	app.run(host='0.0.0.0')

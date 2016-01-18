@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+		table, th, td {
+			border: 1px solid black;
+		}
+		</style>
+	</head>
+	<body>
+		<table>
+			
+			<tr>
+				<th>Rank</th>
+				<th>Team</th>				
+				<th>Member</th>				
+				<th>Correct Rate</th>
+				<th>Last Update</th>
+			</tr>
+			{% for line in rankList %}
+			<tr>
+				{% for item in line %}
+				<td>{{ item }}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</table>
+
+		<form method=get action={{url_for('upload_file')}}>
+			<p>
+				<button type=submit>Go back to upload page</button>
+			</p>
+		</form>
+	</body>
+</html>
