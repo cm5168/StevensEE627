@@ -9,55 +9,49 @@ Class Project for EE627
 
 ###### *optional
 
-
-##### Flask
-Install Flask
-
-_pip install flask_
-
 ##### Nginx and uWSGI 
 [Check out vladikk's tutorial](http://vladikk.com/2013/09/12/serving-flask-with-nginx-on-ubuntu/)
 
 ### Tutorial
 
-1.Install Packages
+##### 1.Install Packages
 
-sudo apt-get update
+_sudo apt-get update_
 
-sudo apt-get install git
+_sudo apt-get install git_
 
-sudo apt-get install python-pip build-essential python-dev
+_sudo apt-get install python-pip build-essential python-dev_
 
 
-2.Install Flask
+##### 2.Install Flask
 
-sudo apt-get install flask
+_sudo apt-get install flask_
 
 (or install flask on a virtual environment)
 
 [Tutorial from Flask website](http://flask.pocoo.org/docs/0.10/installation/)
 
 
-3.Copy to server
+##### 3.Copy to server
 
-mkdir flask
+_mkdir flask_
 
-git clone https://github.com/cm5168/StevensEE627.git
+_git clone https://github.com/cm5168/StevensEE627.git_
 
 
-4.Edit TeamInfo.txt
+##### 4.Edit TeamInfo.txt
 
 The Team information are stored in TeamInfo file. Follow the same format edit the team info.
 
 teamName|Member1, Member2, Member3
 
 
-5.Run server
+##### 5.Run server
 
-python 627.py
+_python 627.py_
 
 
-6.The server is good to go!
+##### 6.The server is good to go!
 
 
 
