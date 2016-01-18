@@ -46,5 +46,20 @@ git clone https://github.com/cm5168/StevensEE627.git
 4. Configure nginx and uWSGI
 
 sudo rm /etc/nginx/sites-enabled/default
-sudo ln -s nginx.conf /etc/nginx/conf.d/
+sudo ln -s ~/flask/StevensEE627/nginx.conf /etc/nginx/conf.d/
 sudo /etc/init.d/nginx start
+uwsgi --ini uswgi.ini
+
+5. Edit TeamInfo.txt
+
+The Team information are stored in TeamInfo file. Follow the same format edit the team info.
+teamName|Member1, Member2, Member3
+
+6. Run server
+
+python 627.py
+
+7. The server is good to go!
+
+
+
