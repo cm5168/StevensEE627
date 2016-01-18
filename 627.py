@@ -36,6 +36,9 @@ list_team=[[dic_team[item],item] for item in dic_team]
 RANK_FILE = "ranking.txt"
 LOG_FILE = "upload_log.txt"
 TURE_FILE = "TrueResult.txt"
+if not os.path.isdir("teamLog"):
+	os.mkdirs("teamLog")
+	
 
 # Create Ranking File
 if not os.path.isfile(RANK_FILE):
