@@ -20,33 +20,39 @@ _pip install flask_
 
 ### Tutorial
 
-1. Install Packages
+1.Install Packages
 
 sudo apt-get update
+
 sudo apt-get install git
+
 sudo apt-get install python-pip build-essential python-dev
 
-2. Install Flask
+2.Install Flask
 
 sudo apt-get install flask
+
 (or install flask on a virtual environment)
+
 [Tutorial from Flask website](http://flask.pocoo.org/docs/0.10/installation/)
 
-3. Copy to server
+3.Copy to server
 
 mkdir flask
+
 git clone https://github.com/cm5168/StevensEE627.git
 
-5. Edit TeamInfo.txt
+4.Edit TeamInfo.txt
 
 The Team information are stored in TeamInfo file. Follow the same format edit the team info.
+
 teamName|Member1, Member2, Member3
 
-6. Run server
+5. Run server
 
 python 627.py
 
-7. The server is good to go!
+6. The server is good to go!
 
 
 
