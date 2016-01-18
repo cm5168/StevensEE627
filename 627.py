@@ -37,7 +37,7 @@ RANK_FILE = "ranking.txt"
 LOG_FILE = "upload_log.txt"
 TURE_FILE = "TrueResult.txt"
 if not os.path.isdir("teamLog"):
-	os.mkdirs("teamLog")
+	os.makedirs("teamLog")
 	
 
 # Create Ranking File
