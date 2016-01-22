@@ -1,5 +1,6 @@
 # StevensEE627
 Class Project for EE627
+This web program take the data result upload and calculate the correct rate. Also include a ranking system.
 
 ### Prerequisite
 * Python 2
