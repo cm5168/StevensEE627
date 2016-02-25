@@ -2,7 +2,6 @@
 ### Summary
 
 
-
 ###################################################################################
 ### Libraries and Variables
 ## Import libraries
@@ -24,7 +23,6 @@ app.config['MAX_CONTENT_LENGTH']=5*1024*1024	# Upload File limit
 # Server Initialization
 # Dictionary for team
 dic_team={}
-
 dic_team_member={}
 dic_team_file={}
 TEAM_INFO_FILE = "TeamInfo.txt"
@@ -44,25 +42,31 @@ list_team=[[dic_team[item],item] for item in dic_team]
 RANK_FILE = "ranking.txt"
 LOG_FILE = "upload_log.txt"
 TURE_FILE = "test_log.txt"
+
+# Create directory for team upload log
 if not os.path.isdir("teamLog"):
 	os.makedirs("teamLog")
 
+# Create directory for temperary upload file folder
 if not os.path.isdir("uploadedfile"):
-	os.makedirs("uploadedfile")
-	
+	os.makedirs("uploadedfile")	
 
 # Create Ranking File
 if not os.path.isfile(RANK_FILE):
 	with open(RANK_FILE,"w") as rankFile:
 		for item in dic_team_member:
-			rankFile.write(item+"|"+dic_team_member[item]+"|0|No Upload\n")
+			rankFile.write(item+"|"+dic_team_member[item]+"|0|No Uploads\n")
 
 # Filter out file extension
 def allowed_file(filename):
 	return '.' in filename and \
 		filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 
-
+# Create Match Data
+trueData = []
+with open(TURE_FILE) as trueFile:
+	for line in trueFile:
+		trueData.append(line.strip("\n").strip("\r"))
 ###################################################################################
 ### Main pages
 
@@ -87,7 +91,7 @@ def upload_file():
 @app.route("/<filename>")
 def uploaded_file(filename):
 	testData = []
-	trueData = []
+
 	teamName = request.args.get("teamName")
 	upload_time = datetime.datetime.now()-datetime.timedelta(hours=5)
 	#try:
@@ -96,16 +100,15 @@ def uploaded_file(filename):
 		for line in testFile:
 			testData.append(line.strip("\n").strip("\r"))
 	# Load True Result
-	with open(TURE_FILE) as trueFile:
-		for line in trueFile:
-			trueData.append(line.strip("\n").strip("\r"))
+
 	# Calculate correct rate
 	if len(testData) == len(trueData):
 		ans = [ 1 if i == j else 0 for i,j in zip(testData,trueData)]
 		correct_rate = "%.4f"%(float(sum(ans))/float(len(ans)))
 		with open("teamLog/"+dic_team_file[teamName],"a") as teamLogFile:
 			with open(LOG_FILE,"a") as logFile:
-				wString = upload_time.strftime("%Y-%m-%d %H:%M:%S")+"|From Team:"+teamName+"|Correct Rate: %.4f"%(float(sum(ans))/float(len(ans)))+"\n"
+				wString = upload_time.strftime("%Y-%m-%d %H:%M:%S")+"|From Team:"+teamName+
+								"|Correct Rate: %.4f"%(float(sum(ans))/float(len(ans)))+"\n"
 				logFile.write(wString)
 				teamLogFile.write(wString)
 				
@@ -133,8 +136,9 @@ def uploaded_file(filename):
 				for line in rank_list:
 					rankFile.write("|".join(line[:2])+"|"+"%.4f"%line[2]+"|"+line[3]+"\n")
 		
-		return	render_template("uploaded_file.html",correct_rate="Correct Rate is " + correct_rate, 
-							teamName=dic_team[teamName], date=upload_time.strftime("%Y-%m-%d %H:%M:%S"))
+		return	render_template("uploaded_file.html",correct_rate="Correct Rate is " +
+								correct_rate, teamName=dic_team[teamName],
+								date=upload_time.strftime("%Y-%m-%d %H:%M:%S"))
 	else:
 		error = "Length doesn't match"
 		return render_template("error.html",error = error)
