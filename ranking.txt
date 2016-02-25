@@ -1,0 +1,7 @@
+team4|D, K, Q|0|No Uploads
+team5|E, L|0|No Uploads
+team6|F, M|0|No Uploads
+team7|G, N|0|No Uploads
+team1|A, H, O|0|No Uploads
+team2|B, I, P|0|No Uploads
+team3|C, J|0|No Uploads

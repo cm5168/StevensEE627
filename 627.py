@@ -107,8 +107,7 @@ def uploaded_file(filename):
 		correct_rate = "%.4f"%(float(sum(ans))/float(len(ans)))
 		with open("teamLog/"+dic_team_file[teamName],"a") as teamLogFile:
 			with open(LOG_FILE,"a") as logFile:
-				wString = upload_time.strftime("%Y-%m-%d %H:%M:%S")+"|From Team:"+teamName+
-								"|Correct Rate: %.4f"%(float(sum(ans))/float(len(ans)))+"\n"
+				wString = upload_time.strftime("%Y-%m-%d %H:%M:%S")+"|From Team:"+teamName+"|Correct Rate: %.4f"%(float(sum(ans))/float(len(ans)))+"\n"
 				logFile.write(wString)
 				teamLogFile.write(wString)
 				
