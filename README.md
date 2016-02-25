@@ -27,7 +27,7 @@ _sudo apt-get install python-pip build-essential python-dev_
 
 ##### 2.Install Flask
 
-_sudo apt-get install flask_
+_sudo pip install flask_
 
 (or install flask on a virtual environment)
 
