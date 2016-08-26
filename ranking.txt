@@ -1,0 +1,7 @@
+team5|E, L|1.0000|2016-08-25 17:17:27
+team7|G, N|1.0000|2016-08-25 17:17:28
+team6|F, M|1.0000|2016-08-25 17:43:55
+team4|D, K, Q|0.0000|No Uploads
+team1|A, H, O|0.0000|No Uploads
+team2|B, I, P|0.0000|No Uploads
+team3|C, J|0.0000|No Uploads
