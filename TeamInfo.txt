@@ -1,7 +1,0 @@
-Team1|A, H, O
-Team2|B, I, P
-Team3|C, J
-Team4|D, K, Q
-Team5|E, L
-Team6|F, M
-Team7|G, N
