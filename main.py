@@ -5,6 +5,7 @@
 ###################################################################################
 ### Libraries and Variables
 ## Import libraries
+import logging
 import os
 import re
 import datetime
@@ -15,11 +16,11 @@ from werkzeug import secure_filename
 import fcntl
 
 # Flask Initialization
-UPLOAD_FOLDER = "./uploadedfile/"
+UPLOAD_FOLDER = os.getcwd()+"/uploadedfile/"
 ALLOWED_EXTENSIONS = set(['txt','csv'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER    # Upload Folder
-app.config['MAX_CONTENT_LENGTH']=5*1024*1024    # Upload File limit
+app.config['MAX_CONTENT_LENGTH']=1*1024*1024    # Upload File limit
 
 # Server Initialization
 # Dictionary for team
@@ -40,9 +41,9 @@ with open(TEAM_INFO_FILE) as teamInfoFile:
 list_team=[[dic_team[item],item] for item in dic_team]
 
 # Data File
-RANK_FILE = "ranking.txt"
-LOG_FILE = "upload_log.txt"
-TURE_FILE = "test_log.txt"
+RANK_FILE = os.getcwd()+"/ranking.txt"
+LOG_FILE = os.getcwd()+"/upload_log.txt"
+TURE_FILE = os.getcwd()+"/test_log.txt"
 
 # Create directory for team upload log
 if not os.path.isdir("teamLog"):
@@ -82,7 +83,7 @@ def upload_file():
                 upload_time = datetime.datetime.now()-datetime.timedelta(hours=5)
                 team_name=request.form['team']
                 time_string = upload_time.strftime("%Y%m%d%H%M%S")
-                filename = time_string+team_name+secure_filename(file.filename)
+                filename = secure_filename(time_string+team_name+file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
                 return redirect(url_for('uploaded_file',filename=filename,teamName=team_name))
         return render_template("upload_file.html",teamList = list_team)
@@ -113,7 +114,7 @@ def uploaded_file(filename):
     if len(testData) == len(trueData):
         ans = [ 1 if i == j else 0 for i,j in zip(testData,trueData)]
         correct_rate = "%.4f"%(float(sum(ans))/float(len(ans)))
-        with open("teamLog/"+dic_team_file[teamName],"a") as teamLogFile:
+        with open(os.getcwd()+"/teamLog/"+dic_team_file[teamName],"a") as teamLogFile:
             with open(LOG_FILE,"a") as logFile:
                 wString = upload_time.strftime("%Y-%m-%d %H:%M:%S")+"|From Team:"+teamName+"|Correct Rate: %.4f"%(float(sum(ans))/float(len(ans)))+"\n"
                 fcntl.flock(logFile, fcntl.LOCK_EX)
@@ -154,6 +155,7 @@ def uploaded_file(filename):
                                 date=upload_time.strftime("%Y-%m-%d %H:%M:%S"))
     else:
         error = "Length doesn't match"
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'],filename))
         return render_template("error.html",error = error)
 
     #except FileNotFoundError:
@@ -165,7 +167,7 @@ def uploaded_file(filename):
 def cur_ranking():
     rank_list = []
     i=1
-    with open("ranking.txt") as rankFile:
+    with open(RANK_FILE) as rankFile:
         for item in rankFile:
             temp=item.strip("\n").strip("\r").split("|")
             temp[0]=dic_team[temp[0]]
@@ -175,4 +177,4 @@ def cur_ranking():
 
 if __name__=="__main__":
     #app.debug = True
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0',port=8080,debug=True)
