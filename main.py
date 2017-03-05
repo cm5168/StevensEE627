@@ -109,7 +109,6 @@ def uploaded_file(filename):
         for line in testFile:
             testData.append(line.strip("\n").strip("\r"))
     # Load True Result
-
     # Calculate correct rate
     if len(testData) == len(trueData):
         ans = [ 1 if i == j else 0 for i,j in zip(testData,trueData)]
